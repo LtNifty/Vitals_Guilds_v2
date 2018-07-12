@@ -6,14 +6,5 @@ description: Guilds
 
 commands:
  guild:
-  usage: /<command>
+  usage: /<command> <args> <args>
   description: opens guild gui
- guild stats:
-  usage: /<command>
-  description: prints the players guild levels
- guild reload:
-  usage: /<command>
-  description: reload players yml
- guild help:
-  usage: /<command>
-  description: prints all the guild commands

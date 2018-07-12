@@ -21,17 +21,14 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 	
 	public String cmd1 = "guild";
-	public String cmd2 = "guilds stats";
-	public String cmd3 = "guild reload";
-	public String cmd4 = "guild help";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
 		if(sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase(cmd1)) {
-				if (args.length >= 1) {
-					switch(args[1]) {
+				if (args.length == 1) {
+					switch(args[0]) {
 					case "help":
 						printHelp((Player) sender);
 						break;
@@ -40,7 +37,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 						break;
 					case "stats":
 						if (args.length == 2) {
-							printStats(getPlayer(args[2]), (Player) sender);
+							printStats(getPlayer(args[1]), (Player) sender);
 						}
 						else
 							printStats(((Player) sender).getUniqueId().toString(), (Player) sender);

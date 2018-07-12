@@ -31,8 +31,6 @@ public class Main extends JavaPlugin {
 	
 	public void onEnable() {
 		getCommand(commands.cmd1).setExecutor(commands);
-		getCommand(commands.cmd2).setExecutor(commands);
-		getCommand(commands.cmd3).setExecutor(commands);
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Vitals Guilds has be enabled.");
 		getServer().getPluginManager().registerEvents(new EventsClass(this), this);
 		loadConfig();
