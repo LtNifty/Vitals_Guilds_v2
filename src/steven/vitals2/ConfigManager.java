@@ -52,6 +52,4 @@ public class ConfigManager {
 		playerData = YamlConfiguration.loadConfiguration(players);
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "The players.yml file has been reloaded");
 	}
-
-	// henlo
 }
