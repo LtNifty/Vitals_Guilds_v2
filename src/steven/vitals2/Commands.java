@@ -81,12 +81,15 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 	
 	private void printHelp(Player player) {
-		player.sendMessage(ChatColor.GRAY + "---------------------------------------------------");
-		player.sendMessage(ChatColor.GOLD + "/guild" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Core Guilds command. Opens Guild Tribute panel if inside a guildroom, else it calls /guild help.\n");
-		player.sendMessage(ChatColor.GOLD + "/guild help" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays all Guild commands.\n");
-		player.sendMessage(ChatColor.GOLD + "/guild reload" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Reloads player.cfg.\n");
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
+		player.sendMessage(ChatColor.GOLD + "/guild" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Core Guilds command. Opens Guild Tribute panel if inside a guildroom, else it calls /guild help.");
+		player.sendMessage("");
+		player.sendMessage(ChatColor.GOLD + "/guild help" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays all Guild commands.");
+		player.sendMessage("");
+		player.sendMessage(ChatColor.GOLD + "/guild reload" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Reloads player.cfg.");
+		player.sendMessage("");
 		player.sendMessage(ChatColor.GOLD + "/guild stats <player>" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays a player's levels in all guilds. If no player given, defaults to the player who calls the command.");
-		player.sendMessage(ChatColor.GRAY + "---------------------------------------------------");
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
 	}
 
 	private String lvlString(Player player, String string) {

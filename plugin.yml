@@ -8,9 +8,12 @@ commands:
  guild:
   usage: /<command>
   description: opens guild gui
- guildstats:
+ guild stats:
   usage: /<command>
   description: prints the players guild levels
- reloadguilds:
+ guild reload:
   usage: /<command>
-  description: reload players yaml
+  description: reload players yml
+ guild help:
+  usage: /<command>
+  description: prints all the guild commands
