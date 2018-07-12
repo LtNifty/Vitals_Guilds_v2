@@ -1,0 +1,16 @@
+name: VitalsGuilds
+author: stevenmlittle
+version: 1.0.0
+main: steven.vitals2.Main
+description: Guilds
+
+commands:
+ guild:
+  usage: /<command>
+  description: opens guild gui
+ guildstats:
+  usage: /<command>
+  description: prints the players guild levels
+ reloadguilds:
+  usage: /<command>
+  description: reload players yaml
