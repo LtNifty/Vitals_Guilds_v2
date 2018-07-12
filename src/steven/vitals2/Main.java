@@ -27,6 +27,8 @@ public class Main extends JavaPlugin {
 	public static Economy economy = null;
 	public ConfigManager cfgm;
 	
+	//test
+	
 	public void onEnable() {
 		getCommand(commands.cmd1).setExecutor(commands);
 		getCommand(commands.cmd2).setExecutor(commands);
