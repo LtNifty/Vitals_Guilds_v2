@@ -19,8 +19,9 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 	
 	public String cmd1 = "guild";
-	public String cmd2 = "guildstats";
-	public String cmd3 = "reloadguilds";
+	public String cmd2 = "guilds stats";
+	public String cmd3 = "guild reload";
+	public String cmd4 = "guild help";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -37,7 +38,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 						return true;
 					}
 					else {
-						sender.sendMessage(ChatColor.GOLD + "Guild help:");
+						printHelp((Player) sender);
 						return true;
 					}
 				}
@@ -48,6 +49,10 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 			}
 			else if (cmd.getName().equalsIgnoreCase(cmd3)) {
 				plugin.cfgm.reloadPlayers();
+				return true;
+			}
+			else if (cmd.getName().equalsIgnoreCase(cmd4)) {
+				printHelp((Player) sender);
 				return true;
 			}
 		}
@@ -73,6 +78,15 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 		plugin.cfgm.savePlayers();
 		//config("users").set(p.getName() + ".guildrank", rankNext);
 		//int rank = config("users").getInt(p.getName() + ".guildrank", 0);
+	}
+	
+	private void printHelp(Player player) {
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------");
+		player.sendMessage(ChatColor.GOLD + "/guild" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Core Guilds command. Opens Guild Tribute panel if inside a guildroom, else it calls /guild help.");
+		player.sendMessage(ChatColor.GOLD + "/guild help" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays all Guild commands.");
+		player.sendMessage(ChatColor.GOLD + "/guild reload" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Reloads player.cfg.");
+		player.sendMessage(ChatColor.GOLD + "/guild stats <player>" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays a player's levels in all guilds. If no player given, defaults to the player who calls the command.");
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------");
 	}
 
 	private String lvlString(Player player, String string) {
