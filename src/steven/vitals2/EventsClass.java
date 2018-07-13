@@ -3,6 +3,7 @@ package steven.vitals2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.lang.Math;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -221,8 +222,11 @@ public class EventsClass implements Listener {
 	}
 	
 	private void Tribute(Player player, String guild) {
-		int numGuilds = guildCount(player);
-		int cost = tributeCost(numGuilds);
+		int totalrank = rankCount(player);
+		int numof = guildCount(player);
+		int nummax = maxCount(player);
+		int currentRank = plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + guild);
+		int cost = tributeCost(totalrank, numof, nummax, currentRank);
 		player.sendMessage("Test:" + cost);
 		
 		
@@ -230,14 +234,24 @@ public class EventsClass implements Listener {
 		return;
 	}
 
-	private int tributeCost(int numGuilds) {
-		/*
-		 if (nextrank == max)
-		 	totalguildrank*numofguild^1.2*tribute*(50000*nummaxlvl)
-		 else
-		 	totalguildrank*numofguild^1.2*tribute
-		 */
-		return 0;
+	private int maxCount(Player player) {
+		List<Integer> Guilds = new ArrayList<Integer>();
+		int count = 0;
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Brewing"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Enchanting"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Farming"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Fishing"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Mining"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Rancher"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Slayer"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Woodcutting"));
+
+		for (int i : Guilds) {
+			if (i == 30) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	private int guildCount(Player player) {
@@ -256,6 +270,46 @@ public class EventsClass implements Listener {
 			if (!(i == 0)) {
 				count++;
 			}
+		}
+		return count;
+	}
+
+	private int tributeCost(int totalrank, int guildcount, int maxcount, int currentRank) {
+		List<Integer> price = new ArrayList<Integer>();
+		int cost = 0;
+		int mod = plugin.getConfig().getInt("monopoly_modifier");
+		for (int i=0; i == currentRank; i++) {
+			cost = price.get(i);
+		}
+		
+		if ((currentRank + 1) == 30) {
+			return (int) (totalrank*(Math.pow(guildcount, 1.2))*cost+(mod*maxcount));
+		}
+		else {
+			return (int) (totalrank*(Math.pow(guildcount, 1.2))*cost);
+		}
+		/*
+		 if (nextrank == max)
+		 	totalguildrank*numofguild^1.2*tribute*(50000*nummaxlvl)
+		 else
+		 	totalguildrank*numofguild^1.2*tribute
+		 */
+	}
+
+	private int rankCount(Player player) {
+		List<Integer> Guilds = new ArrayList<Integer>();
+		int count = 0;
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Brewing"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Enchanting"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Farming"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Fishing"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Mining"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Rancher"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Slayer"));
+		Guilds.add(plugin.cfgm.getPlayer().getInt(player.getUniqueId().toString() + "." + "Woodcutting"));
+
+		for (int i : Guilds) {
+			count += i;
 		}
 		return count;
 	}

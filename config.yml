@@ -5,6 +5,7 @@ info: true
 top: true
 Fishing_bait: false
 bait_item: 'PUMPKIN_SEEDS'
+monopoly_modifier: 50000
 
 guild_regions:
 - brewingguildzone
