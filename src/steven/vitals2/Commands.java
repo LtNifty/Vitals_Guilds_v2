@@ -31,17 +31,19 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 					switch(args[0]) {
 					case "help":
 						printHelp((Player) sender);
-						break;
+						return true;
 					case "reload":
+						sender.sendMessage(ChatColor.BLUE + "Reloading players.yml & config.yml...");
 						plugin.cfgm.reloadPlayers();
-						break;
+						plugin.reloadConfig();
+						sender.sendMessage(ChatColor.BLUE + "Done!");
+						return true;
 					case "stats":
-						if (args.length == 2) {
+						if (args.length == 2)
 							printStats(getPlayer(args[1]), (Player) sender);
-						}
 						else
 							printStats(((Player) sender).getUniqueId().toString(), (Player) sender);
-					
+						return true;
 					}
 				}
 				else {
@@ -76,8 +78,8 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 
 	private void printStats(String UUID, Player player) {
-		player.sendMessage(ChatColor.GRAY + "------------------------------------------------------");
-		player.sendMessage(ChatColor.BLUE + player.getDisplayName() + ChatColor.BLUE + "'s Guild Stats");
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
+		player.sendMessage(ChatColor.GOLD + "" + player.getDisplayName());
 		player.sendMessage(ChatColor.DARK_PURPLE + "Brewing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Brewing")));
 		player.sendMessage(ChatColor.DARK_GREEN + "Farming Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Farming")));
 		player.sendMessage(ChatColor.GREEN + "Woodcutting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Woodcutting")));
@@ -86,22 +88,22 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 		player.sendMessage(ChatColor.AQUA + "Fishing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Fishing")));
 		player.sendMessage(ChatColor.GRAY + "Mining Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Mining")));
 		player.sendMessage(ChatColor.DARK_GRAY + "Slayer Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Slayer")));
-		player.sendMessage(ChatColor.GRAY + "------------------------------------------------------");
+		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
 		plugin.cfgm.savePlayers();
 		//config("users").set(p.getName() + ".guildrank", rankNext);
 		//int rank = config("users").getInt(p.getName() + ".guildrank", 0);
 	}
 	
 	private void printHelp(Player player) {
-		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
+		player.sendMessage(ChatColor.GRAY + "-----------------{" + ChatColor.GOLD + ChatColor.BOLD + "Guilds Commands" + ChatColor.GRAY + "}-----------------");
 		player.sendMessage(ChatColor.GOLD + "/guild" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Core Guilds command. Opens Guild Tribute panel if inside a guildroom, else it calls /guild help.");
 		player.sendMessage("");
 		player.sendMessage(ChatColor.GOLD + "/guild help" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays all Guild commands.");
 		player.sendMessage("");
-		player.sendMessage(ChatColor.GOLD + "/guild reload" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Reloads player.cfg.");
+		player.sendMessage(ChatColor.GOLD + "/guild reload" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Reloads players.yml and config.yml");
 		player.sendMessage("");
 		player.sendMessage(ChatColor.GOLD + "/guild stats <player>" + ChatColor.WHITE + ": " + ChatColor.BLUE + "Displays a player's levels in all guilds. If no player given, defaults to the player who calls the command.");
-		player.sendMessage(ChatColor.GRAY + "------------------------------------------------------");
+		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
 	}
 
 	private String lvlString(String UUID, String string) {
