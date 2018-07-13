@@ -1,5 +1,7 @@
 package steven.vitals2;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -27,7 +29,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 		
 		if(sender instanceof Player) {
 			if (cmd.getName().equalsIgnoreCase(cmd1)) {
-				if (args.length == 1) {
+				if (args.length >= 1) {
 					switch(args[0]) {
 					case "help":
 						printHelp((Player) sender);
@@ -39,10 +41,11 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 						sender.sendMessage(ChatColor.BLUE + "Done!");
 						return true;
 					case "stats":
-						if (args.length == 2)
+						if (args.length == 2) {
 							printStats(getPlayer(args[1]), (Player) sender);
+						}
 						else
-							printStats(((Player) sender).getUniqueId().toString(), (Player) sender);
+							printStats(((Player) sender).getUniqueId(), (Player) sender);
 						return true;
 					}
 				}
@@ -66,33 +69,30 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 
 	@SuppressWarnings("deprecation")
-	private String getPlayer(String string) {
+	private UUID getPlayer(String string) {
 		OfflinePlayer seb = Bukkit.getOfflinePlayer(string);
 		if (plugin.cfgm.getPlayer().contains(seb.getUniqueId().toString())) {
-			return seb.getUniqueId().toString();
+			return seb.getUniqueId();
 		}
 		else {
-			return "unknown";
+			return null;
 		}
 			
 	}
 
-	private void printStats(String UUID, Player player) {
+	private void printStats(UUID uuid, Player player) {
 		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
-		player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD  + "" + player.getDisplayName() + ChatColor.GOLD + "" + ChatColor.BOLD + "'s Guild Stats");
-		player.sendMessage("");
-		player.sendMessage(ChatColor.DARK_PURPLE + "Brewing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Brewing")));
-		player.sendMessage(ChatColor.DARK_GREEN + "Farming Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Farming")));
-		player.sendMessage(ChatColor.GREEN + "Woodcutting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Woodcutting")));
-		player.sendMessage(ChatColor.RED + "Rancher Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Rancher")));
-		player.sendMessage(ChatColor.LIGHT_PURPLE + "Enchanting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Enchanting")));
-		player.sendMessage(ChatColor.AQUA + "Fishing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Fishing")));
-		player.sendMessage(ChatColor.GRAY + "Mining Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Mining")));
-		player.sendMessage(ChatColor.DARK_GRAY + "Slayer Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Slayer")));
+		player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD  + "" + Bukkit.getOfflinePlayer(uuid).getName().toString()  + ChatColor.GOLD + "" + ChatColor.BOLD + "'s Guild Stats");
+		player.sendMessage(ChatColor.DARK_PURPLE + "Brewing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Brewing")));
+		player.sendMessage(ChatColor.DARK_GREEN + "Farming Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Farming")));
+		player.sendMessage(ChatColor.GREEN + "Woodcutting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Woodcutting")));
+		player.sendMessage(ChatColor.RED + "Rancher Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Rancher")));
+		player.sendMessage(ChatColor.LIGHT_PURPLE + "Enchanting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Enchanting")));
+		player.sendMessage(ChatColor.AQUA + "Fishing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Fishing")));
+		player.sendMessage(ChatColor.GRAY + "Mining Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Mining")));
+		player.sendMessage(ChatColor.DARK_GRAY + "Slayer Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(uuid, "Slayer")));
 		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
 		plugin.cfgm.savePlayers();
-		//config("users").set(p.getName() + ".guildrank", rankNext);
-		//int rank = config("users").getInt(p.getName() + ".guildrank", 0);
 	}
 	
 	private void printHelp(Player player) {
@@ -107,8 +107,8 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
 	}
 
-	private String lvlString(String UUID, String string) {
-		int lvl = plugin.cfgm.getPlayer().getInt(UUID + "." + string);
+	private String lvlString(UUID uuid, String string) {
+		int lvl = plugin.cfgm.getPlayer().getInt(uuid.toString() + "." + string);
 		if (lvl == 30) {
 			return "&e&l30/30";
 		}
