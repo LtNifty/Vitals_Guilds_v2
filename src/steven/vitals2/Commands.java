@@ -78,8 +78,9 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 
 	private void printStats(String UUID, Player player) {
-		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
-		player.sendMessage(ChatColor.GOLD + "" + player.getDisplayName());
+		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
+		player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD  + "" + player.getDisplayName() + ChatColor.GOLD + "" + ChatColor.BOLD + "'s Guild Stats");
+		player.sendMessage("");
 		player.sendMessage(ChatColor.DARK_PURPLE + "Brewing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Brewing")));
 		player.sendMessage(ChatColor.DARK_GREEN + "Farming Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Farming")));
 		player.sendMessage(ChatColor.GREEN + "Woodcutting Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Woodcutting")));
@@ -88,7 +89,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 		player.sendMessage(ChatColor.AQUA + "Fishing Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Fishing")));
 		player.sendMessage(ChatColor.GRAY + "Mining Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Mining")));
 		player.sendMessage(ChatColor.DARK_GRAY + "Slayer Guild" + ChatColor.WHITE + ": " + ChatColor.YELLOW + "Lvl " + ChatColor.translateAlternateColorCodes('&', lvlString(UUID, "Slayer")));
-		player.sendMessage(ChatColor.GRAY + "-----------------------------------------------------");
+		player.sendMessage(ChatColor.GRAY + "----------------------------------------------------");
 		plugin.cfgm.savePlayers();
 		//config("users").set(p.getName() + ".guildrank", rankNext);
 		//int rank = config("users").getInt(p.getName() + ".guildrank", 0);
