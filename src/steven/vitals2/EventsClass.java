@@ -170,10 +170,51 @@ public class EventsClass implements Listener {
 	public void fishBait(PlayerFishEvent event) {
 		Player player = event.getPlayer();
 		Material bait = Material.getMaterial(plugin.getConfig().getString("bait_item"));
-		int count = -1;
-		boolean itemfound = false;
-
+		int count = 0, slot = 0, total = 0;
+		boolean bothSides = false;
+		
 		if (plugin.getConfig().getBoolean("Fishing_bait")) {
+			if (event.getState() == State.FISHING) {
+				for (int i = 0; i < 9; i++) {
+					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getType() == Material.FISHING_ROD) {
+						slot = i;
+						break;
+					}
+				}
+				if ((slot+1) < 9 && player.getInventory().getItem(slot+1) != null && player.getInventory().getItem(slot+1).getType() == bait) {
+					count = player.getInventory().getItem(slot+1).getAmount();
+					if ((slot-1) >= 0 && player.getInventory().getItem(slot-1) != null && player.getInventory().getItem(slot-1).getType() == bait) {
+						total = count + player.getInventory().getItem(slot-1).getAmount() - 1;
+						bothSides = true;
+					}
+					if (total == 0)
+						total = count - 1;
+					takeBait(slot+1, count, total, player, bait, bothSides);
+					return;
+				}
+				else if ((slot-1) >= 0 && player.getInventory().getItem(slot-1) != null && player.getInventory().getItem(slot-1).getType() == bait) {
+					count = player.getInventory().getItem(slot-1).getAmount();
+					total = count - 1;
+					takeBait(slot-1, count, total, player, bait, false);
+					return;
+				}
+				else {
+					if (player.getInventory().contains(bait)) {
+						player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You must have the bait next to your fishing rod on your hotbar.");
+						event.setCancelled(true);
+						return;
+					}
+					else
+						player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You must have bait to fish.");
+					event.setCancelled(true);
+					return;
+				}
+			}
+		}
+		else
+			return;
+
+		/*if (plugin.getConfig().getBoolean("Fishing_bait")) {
 			if (event.getState() == State.FISHING) {
 				if (player.getInventory().contains(bait)) {
 					for (ItemStack item : player.getInventory().getContents()) {
@@ -193,8 +234,7 @@ public class EventsClass implements Listener {
 				if (itemfound) {
 					if (count > 1) {
 						count--;
-						player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC
-								+ "You cast your line out. You now have " + count + " bait left.");
+						player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You cast your line out. You now have " + count + " bait left.");
 						for (ItemStack item : player.getInventory().getContents()) {
 							if (item.getType().equals(bait)) {
 								item.setAmount(count);
@@ -218,9 +258,28 @@ public class EventsClass implements Listener {
 				return;
 		} 
 		else
-			return;
+			return;*/
 	}
 	
+	private void takeBait(int i, int count, int total, Player player, Material bait, boolean bothSides) {
+		if (count > 1) {
+			count--;
+			player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You cast your line out. You now have " + total + " bait left.");
+			player.getInventory().getItem(i).setAmount(count);
+		}
+		else if (count == 1) {
+			count--;
+			if (bothSides) {
+				player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You cast your line out. You now have " + player.getInventory().getItem(i-2).getAmount() + " bait left.");
+				player.getInventory().getItem(i).setAmount(count);
+			}
+			else {
+				player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "You cast your line out. You have no more bait!");
+				player.getInventory().getItem(i).setAmount(count);
+			}
+		}
+	}
+
 	private void Tribute(Player player, String guild) {
 		int totalrank = rankCount(player);
 		int numof = guildCount(player);
