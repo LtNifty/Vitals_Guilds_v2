@@ -37,6 +37,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 					case "reload":
 						sender.sendMessage(ChatColor.BLUE + "Reloading players.yml & config.yml...");
 						plugin.cfgm.reloadPlayers();
+						plugin.cfgm.reloadGuildItems();
 						plugin.reloadConfig();
 						sender.sendMessage(ChatColor.BLUE + "Done!");
 						return true;
@@ -71,7 +72,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	@SuppressWarnings("deprecation")
 	private UUID getPlayer(String string) {
 		OfflinePlayer seb = Bukkit.getOfflinePlayer(string);
-		if (plugin.cfgm.getPlayer().contains(seb.getUniqueId().toString())) {
+		if (plugin.cfgm.getPlayers().contains(seb.getUniqueId().toString())) {
 			return seb.getUniqueId();
 		}
 		else {
@@ -108,7 +109,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 	}
 
 	private String lvlString(UUID uuid, String string) {
-		int lvl = plugin.cfgm.getPlayer().getInt(uuid.toString() + "." + string);
+		int lvl = plugin.cfgm.getPlayers().getInt(uuid.toString() + "." + string);
 		if (lvl == 30) {
 			return "&e&l30/30";
 		}

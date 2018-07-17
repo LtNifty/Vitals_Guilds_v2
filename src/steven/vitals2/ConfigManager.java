@@ -16,7 +16,10 @@ public class ConfigManager {
 	public FileConfiguration playerData;
 	public File players;
 	
-	public void setup() {
+	public FileConfiguration guildItemsData;
+	public File guildItems;
+	
+	public void setupPlayers() {
 		if (!plugin.getDataFolder().exists()) {
 			plugin.getDataFolder().mkdir();
 		}
@@ -35,7 +38,7 @@ public class ConfigManager {
 		playerData = YamlConfiguration.loadConfiguration(players);
 	}
 	
-	public FileConfiguration getPlayer() {
+	public FileConfiguration getPlayers() {
 		return playerData;
 	}
 	
@@ -51,5 +54,42 @@ public class ConfigManager {
 	public void reloadPlayers() {
 		playerData = YamlConfiguration.loadConfiguration(players);
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "The players.yml file has been reloaded");
+	}
+	
+	public void setupGuilds() {
+		if (!plugin.getDataFolder().exists()) {
+			plugin.getDataFolder().mkdir();
+		}
+		
+		guildItems = new File(plugin.getDataFolder(), "guildItems.yml");
+		
+		if (!guildItems.exists()) {
+			try {
+				guildItems.createNewFile();
+			}
+			catch(IOException e) {
+				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Could not create the guildItems.yml file");
+			}
+		}
+		
+		guildItemsData = YamlConfiguration.loadConfiguration(guildItems);
+	}
+	
+	public FileConfiguration getGuildItems() {
+		return guildItemsData;
+	}
+	
+	public void saveGuildItems() {
+		try {
+			guildItemsData.save(guildItems);
+		}
+		catch (IOException e) {
+			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "Could not save the guildItems.yml file");
+		}
+	}
+	
+	public void reloadGuildItems() {
+		guildItemsData = YamlConfiguration.loadConfiguration(guildItems);
+		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "The guildItems.yml file has been reloaded");
 	}
 }

@@ -24,7 +24,7 @@ public class Main extends JavaPlugin {
 	
 	public static Chat chat = null;
 	private Commands commands = new Commands(this);
-	public static Economy economy = null;
+	public Economy economy = null;
 	public ConfigManager cfgm;
 	
 	//test
@@ -51,9 +51,12 @@ public class Main extends JavaPlugin {
 	
 	public void loadConfigManager() {
 		cfgm = new ConfigManager();
-		cfgm.setup();
+		cfgm.setupPlayers();
 		cfgm.savePlayers();
 		cfgm.reloadPlayers();
+		cfgm.setupGuilds();
+		cfgm.saveGuildItems();
+		cfgm.reloadGuildItems();
 	}
 	
 	private boolean setupChat() {
