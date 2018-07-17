@@ -85,18 +85,21 @@ public class EventsClass implements Listener {
 		Inventory open = event.getInventory();
 		ItemStack item = event.getCurrentItem();
 
-		if (open.getName().equals(
-				ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', name)))) {
+		if (open.getName().equals(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', name)))) {
 			if (item != null && item.getType() != Material.AIR && item.hasItemMeta()) {
 				if (item.getType() == Material.STAINED_GLASS_PANE) {
 					event.setCancelled(true);
 					return;
 				}
-				else if (item.getType() == clickable && item.getAmount() == 1) {
+				else if (item.getType() == clickable || item.getType() == Material.WRITTEN_BOOK && item.getAmount() == 1) {
 					if (item.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Tribute")) {
 						event.setCancelled(true);
-						player.sendMessage(ChatColor.GOLD + "You have paid tribute to " + ChatColor.translateAlternateColorCodes('&', name));
 						Tribute(player, guild);
+						nextRank(player, guild);
+					}
+					else if (item.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Next rank information")) {
+						event.setCancelled(true);
+						nextRank(player, guild);
 					}
 					else {
 						return;
@@ -279,6 +282,27 @@ public class EventsClass implements Listener {
 			}
 		}
 	}
+	
+	private void nextRank(Player player, String guildzone) {
+		String guild = cfgGuild(guildzone);
+		int currentRank = plugin.cfgm.getPlayers().getInt(player.getUniqueId().toString() + "." + guild);
+		
+		if (currentRank == 30) {
+			player.sendMessage(ChatColor.GOLD + "You are max level! You cannot pay any more tribute!");
+			return;
+		}
+		
+		List<String> materialList = plugin.cfgm.getGuildItems().getStringList(guild);
+		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList("Item_Amount");
+		Material material = Material.getMaterial(materialList.get(currentRank));
+		int amount = amountList.get(currentRank);
+		int totalrank = rankCount(player);
+		int numof = guildCount(player);
+		int nummax = maxCount(player);
+		int cost = tributeCost(totalrank, numof, nummax, currentRank);
+		
+		player.sendMessage(ChatColor.GOLD + "For you next rank in " + guild + " you need: $" + cost + " and " + material.toString() + " x" + amount);
+	}
 
 	private void Tribute(Player player, String guildzone) {
 		String guild = cfgGuild(guildzone);
@@ -297,11 +321,11 @@ public class EventsClass implements Listener {
 		boolean hasItem = false;
 		List<String> materialList = plugin.cfgm.getGuildItems().getStringList(guild);
 		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList("Item_Amount");
-		Material material = Material.getMaterial(materialList.get(currentRank+1));
-		int amount = amountList.get(currentRank+1);
+		Material material = Material.getMaterial(materialList.get(currentRank));
+		int amount = amountList.get(currentRank);
 		
 		for (ItemStack i : player.getInventory().getContents()) {
-			if (i.getType() == material && i.getAmount() >= amount) {
+			if (i != null && i.getType() == material && i.getAmount() >= amount) {
 				hasItem = true;
 				break;
 			}
@@ -369,7 +393,7 @@ public class EventsClass implements Listener {
 	private int tributeCost(int totalrank, int guildcount, int maxcount, int currentRank) {
 		List<Integer> price = plugin.getConfig().getIntegerList("Price_base");
 		int mod = plugin.getConfig().getInt("monopoly_modifier");
-		int cost = price.get(currentRank + 1);
+		int cost = price.get(currentRank);
 		
 		if ((currentRank + 1) == 30) {
 			return (int) (totalrank*(Math.pow(guildcount, 1.2))*cost+(mod*maxcount));
