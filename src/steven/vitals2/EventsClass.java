@@ -286,6 +286,7 @@ public class EventsClass implements Listener {
 	private void nextRank(Player player, String guildzone) {
 		String guild = cfgGuild(guildzone);
 		int currentRank = plugin.cfgm.getPlayers().getInt(player.getUniqueId().toString() + "." + guild);
+		String item = cfgItem(guild);
 		
 		if (currentRank == 30) {
 			player.sendMessage(ChatColor.GOLD + "You are max level! You cannot pay any more tribute!");
@@ -293,7 +294,7 @@ public class EventsClass implements Listener {
 		}
 		
 		List<String> materialList = plugin.cfgm.getGuildItems().getStringList(guild);
-		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList("Item_Amount");
+		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList(item);
 		Material material = Material.getMaterial(materialList.get(currentRank));
 		int amount = amountList.get(currentRank);
 		int totalrank = rankCount(player);
@@ -304,9 +305,32 @@ public class EventsClass implements Listener {
 		player.sendMessage(ChatColor.GOLD + "For you next rank in " + guild + " you need: $" + cost + " and " + material.toString() + " x" + amount);
 	}
 
+	private String cfgItem(String guild) {
+		switch (guild) {
+			case "Brewing":
+				return "Brewing_Amount";
+			case "Enchanting":
+				return "Enchanting_Amount";
+			case "Farming":
+				return "Farming_Amount";
+			case "Fishing":
+				return "Fishing_Amount";
+			case "Mining":
+				return "Mining_Amount";
+			case "Rancher":
+				return "Rancher_Amount";
+			case "Slayer":
+				return "Slayer_Amount";
+			case "Woodcutting":
+				return "Woodcutting_Amount";
+		}
+		return null;
+	}
+
 	private void Tribute(Player player, String guildzone) {
 		String guild = cfgGuild(guildzone);
 		int currentRank = plugin.cfgm.getPlayers().getInt(player.getUniqueId().toString() + "." + guild);
+		String item = cfgItem(guild);
 		
 		if (currentRank == 30) {
 			player.sendMessage(ChatColor.GOLD + "You are max level! You cannot pay any more tribute!");
@@ -320,7 +344,7 @@ public class EventsClass implements Listener {
 		double balance = plugin.economy.getBalance(player);
 		boolean hasItem = false;
 		List<String> materialList = plugin.cfgm.getGuildItems().getStringList(guild);
-		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList("Item_Amount");
+		List<Integer> amountList = plugin.cfgm.getGuildItems().getIntegerList(item);
 		Material material = Material.getMaterial(materialList.get(currentRank));
 		int amount = amountList.get(currentRank);
 		
