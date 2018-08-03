@@ -3,14 +3,12 @@ package steven.vitals2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.lang.Math;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
-import org.bukkit.entity.Witch;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -52,7 +50,16 @@ public class EventsClass implements Listener {
 		
 		if (!guild.equals("Unknown")) {
 			if (guild.equals("brewingguildzone")) {
-				if (entity instanceof Witch) {
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+					event.setCancelled(true);
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("enchantguildzone")){
+				if (entity instanceof Villager) {
 					Inv I = new Inv();
 
 					I.GShopInventory(player, guild);
@@ -60,7 +67,52 @@ public class EventsClass implements Listener {
 					return;
 				}
 			}
-			else {
+			else if (guild.equals("farmingguildzone")){
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("fishingguildzone")){
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("miningguildzone")){
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("rancherguildzone")){
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("slayerguildzone")){
+				if (entity instanceof Villager) {
+					Inv I = new Inv();
+
+					I.GShopInventory(player, guild);
+
+					return;
+				}
+			}
+			else if (guild.equals("wcguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
 

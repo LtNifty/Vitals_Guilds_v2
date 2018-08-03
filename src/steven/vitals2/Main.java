@@ -5,10 +5,13 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
@@ -33,6 +36,7 @@ public class Main extends JavaPlugin {
 		getCommand(commands.cmd1).setExecutor(commands);
 		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Vitals Guilds has be enabled.");
 		getServer().getPluginManager().registerEvents(new EventsClass(this), this);
+		timer();
 		loadConfig();
 		loadConfigManager();
 		setupChat();
@@ -85,6 +89,16 @@ public class Main extends JavaPlugin {
 		return (WorldGuardPlugin) plugin;
 	}
 	
+	public void timer() {
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				freezeShop();				
+			}
+		}.runTaskTimerAsynchronously(this, 0, 1);
+	}
+	
 	public boolean isWithinRegion(Location loc, String region) {
 	    WorldGuardPlugin guard = getWorldGuard();
 	    Vector v = BukkitUtil.toVector(loc);
@@ -106,5 +120,22 @@ public class Main extends JavaPlugin {
 			}
 		}
 		return "Unknown";
+	}
+	
+	public void freezeShop() {
+		List<Entity> entities = getServer().getWorld("6d7").getEntities();
+		
+		for (Entity e : entities) {
+			if (e instanceof Villager) {
+				List<String> guildRegions = getConfig().getStringList("guild_regions");
+				
+				for (String s : guildRegions) {
+					if (isWithinRegion(e.getLocation(), s)) {
+						e.setVelocity(e.getVelocity().zero());
+						((Villager) e).setHealth(20);
+					}
+				}
+			}
+		}
 	}
 }
