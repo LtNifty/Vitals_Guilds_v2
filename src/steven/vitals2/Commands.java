@@ -39,6 +39,7 @@ public class Commands extends CommandExecute implements Listener, CommandExecuto
 						plugin.cfgm.reloadPlayers();
 						plugin.cfgm.reloadGuildItems();
 						plugin.reloadConfig();
+						plugin.cfgm.reloadShops();
 						sender.sendMessage(ChatColor.BLUE + "Done!");
 						return true;
 					case "stats":

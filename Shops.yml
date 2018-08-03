@@ -1,0 +1,192 @@
+brewingguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 7
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: BREWING_STAND_ITEM
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy brewing stand
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+enchantguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: ENCHANTMENT_TABLE
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy enchanting table
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+farmingguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: WHEAT
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: BREWING_STAND_ITEM
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy Wheat stand
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+fishingguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: RAW_FISH
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy Raw Cod table
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+miningguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: DIAMOND_PICKAXE
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy diamond pickaxe stand
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+rancherguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: RAW_BEEF
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy raw steak table
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+slayerguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: ROTTEN_FLESH
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy zombie leftovers stand
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200
+wcguildzone:
+    #Must be a multiple of 9
+    Size: 9
+    #Enter the material for the fill item
+    FillType: STAINED_GLASS_PANE
+    # Enter the byte value for the color
+    ColorByte: 0
+    #Enter the list of items, there must be the same amount as the value of size
+    Items:
+        1: Fill
+        2: DIAMOND_AXE
+        3: Fill
+        4: Fill
+        5: Fill
+        6: Fill
+        7: Fill
+        8: Fill
+        9: Fill
+    #Enter the name for the none fill items, put them in order of the list above
+    Name:
+        - 2: Buy diamond axe table
+    #Enter the lore for the items, put them in order of the list above
+    Lore: 
+        - 2: Cost: $200

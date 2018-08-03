@@ -61,6 +61,9 @@ public class Main extends JavaPlugin {
 		cfgm.setupGuilds();
 		cfgm.saveGuildItems();
 		cfgm.reloadGuildItems();
+		cfgm.setupShops();
+		cfgm.saveShops();
+		cfgm.reloadShops();
 	}
 	
 	private boolean setupChat() {

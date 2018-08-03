@@ -1,6 +1,7 @@
 package steven.vitals2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -56,33 +57,43 @@ public class Inv implements Listener {
 	}
 	
 	public void GShopInventory(Player player, String guild) {
-		String name = readableGuild(guild);
-		Material item = zoneItem(guild);
-		Inventory I = plugin.getServer().createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', name) + " Shop");
-		ItemStack a = new ItemStack(item, 1);
-		ItemStack empty = new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 0);
-		ItemMeta eMeta = empty.getItemMeta();
-		ItemMeta aMeta = a.getItemMeta();
-		aMeta.setDisplayName(ChatColor.GOLD + "Test");
-		eMeta.setDisplayName(ChatColor.GRAY + " ");
-		ArrayList<String> lore = new ArrayList<String>();
-		lore.add("Take $200");
-		lore.add("Gives guild Item");
-		aMeta.setLore(lore);
-		empty.setItemMeta(eMeta);
-		a.setItemMeta(aMeta);
+		List<ItemStack> inv = new ArrayList<ItemStack>();
 		
-		I.setItem(0, empty);
-		I.setItem(1, a);
-		I.setItem(2, empty);
-		I.setItem(3, empty);
-		I.setItem(4, empty);
-		I.setItem(5, empty);
-		I.setItem(6, empty);
-		I.setItem(7, empty);
-		I.setItem(8, empty);
+		String name = readableGuild(guild);
+		Inventory I = plugin.getServer().createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', name) + " Shop");
+		Material fillType = Material.getMaterial(plugin.cfgm.getShops().getString(guild + ".FillType"));
+		byte fillColor = (byte) plugin.cfgm.getShops().getInt(guild + ".ColorByte");
+		ItemStack empty = new ItemStack(fillType, 1, fillColor);
+		ItemMeta eMeta = empty.getItemMeta();
+		eMeta.setDisplayName(ChatColor.GRAY + " ");
+		empty.setItemMeta(eMeta);
+		
+		int slots = plugin.cfgm.getShops().getInt(guild + ".Size");
+		
+		for (int i = 1; i <= slots; i++) {
+			String currentItem = plugin.cfgm.getShops().getString(guild + ".Items." + i);
+			if (currentItem.equalsIgnoreCase("fill")) {
+				inv.add(empty);
+			}
+			else {
+				ItemStack a = new ItemStack(Material.getMaterial(currentItem), 1);
+				ItemMeta Meta = a.getItemMeta();
+				Meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', plugin.cfgm.getShops().getString(guild + ".Name." + i)));
+				List<String> lore = new ArrayList<String>();
+				lore.add(ChatColor.translateAlternateColorCodes('&', plugin.cfgm.getShops().getString(guild + ".Lore." + i)));
+
+				Meta.setLore(lore);
+				a.setItemMeta(Meta);
+				inv.add(a);
+			}
+		}
+		
+		for (int i = 0; i < slots; i++) {
+			I.setItem(i, inv.get(i));
+		}
 		
 		player.openInventory(I);
+		/*ChatColor.translateAlternateColorCodes('&',*/
 	}
 
 

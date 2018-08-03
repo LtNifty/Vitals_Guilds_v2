@@ -12,6 +12,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerFishEvent.State;
@@ -61,7 +62,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("enchantguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -70,7 +71,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("farmingguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -79,7 +80,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("fishingguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -88,7 +89,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("miningguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -97,7 +98,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("rancherguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -106,7 +107,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("slayerguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -115,7 +116,7 @@ public class EventsClass implements Listener {
 			else if (guild.equals("wcguildzone")){
 				if (entity instanceof Villager) {
 					Inv I = new Inv();
-
+					event.setCancelled(true);
 					I.GShopInventory(player, guild);
 
 					return;
@@ -136,6 +137,7 @@ public class EventsClass implements Listener {
 
 		Inventory open = event.getInventory();
 		ItemStack item = event.getCurrentItem();
+		ClickType click = event.getClick();
 
 		if (open.getName().equals(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', name)))) {
 			if (item != null && item.getType() != Material.AIR && item.hasItemMeta()) {
@@ -143,7 +145,7 @@ public class EventsClass implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				else if (item.getType() == clickable || item.getType() == Material.WRITTEN_BOOK && item.getAmount() == 1) {
+				else if (item.getType() != clickable || item.getType() == Material.WRITTEN_BOOK && item.getAmount() == 1) {
 					if (item.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Tribute")) {
 						event.setCancelled(true);
 						Tribute(player, guild);
@@ -169,12 +171,18 @@ public class EventsClass implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				else if (item.getType() == clickable && item.getAmount() == 1) {
-					if (item.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Test")) {
-						event.setCancelled(true);
-						player.sendMessage(ChatColor.GOLD + "You now have this item");
-						plugin.economy.withdrawPlayer(player, 200);
-						player.getInventory().addItem(new ItemStack(clickable, 1));
+				else if (item.getType() != Material.BEDROCK && item.getAmount() == 1) {
+					if (item.getItemMeta().getDisplayName().contains("Buy")) {
+						if (click == ClickType.SHIFT_RIGHT || click == ClickType.SHIFT_LEFT) {
+							event.setCancelled(true);
+							plugin.economy.withdrawPlayer(player, (double)(plugin.cfgm.getShops().getInt(guild + ".Price." + item.getType())*64));
+							player.getInventory().addItem(new ItemStack(item.getType(), 64));
+						}
+						else {
+							event.setCancelled(true);
+							plugin.economy.withdrawPlayer(player, (double)plugin.cfgm.getShops().getInt(guild + ".Price." + item.getType()));
+							player.getInventory().addItem(new ItemStack(item.getType(), 1));
+						}
 					}
 					else {
 						return;
