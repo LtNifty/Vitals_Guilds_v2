@@ -145,7 +145,7 @@ public class EventsClass implements Listener {
 					event.setCancelled(true);
 					return;
 				}
-				else if (item.getType() != clickable || item.getType() == Material.WRITTEN_BOOK && item.getAmount() == 1) {
+				else if (item.getType() == clickable || item.getType() == Material.WRITTEN_BOOK && item.getAmount() == 1) {
 					if (item.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Tribute")) {
 						event.setCancelled(true);
 						Tribute(player, guild);
